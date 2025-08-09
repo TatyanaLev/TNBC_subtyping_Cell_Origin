@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+
+import pandas as pd
+import numpy as np
+
+
+# import csv file of TNBC correlation values as was 
+df = pd.read_csv("TNBC_subtyping_bulk_pseudobulk.csv", index_col=0)
+
+# keep only the four epithelial TNBC subtype correlations
+df = df[['BL1', 'M', 'BL2', 'LAR']]
+
+# make column which displays the maximum correlation value of each row (patient)
+df['MaxCorVal'] = df.max(axis=1)
+
+# make column which displays the TNBC subtype which has the highest correlation
+df['MaxColName'] = df.idxmax(axis=1)
+
+# make column for final subtype assignment, which reassigns any subtype designation to UNS if the maximal correlation is negative
+df['final_subtype'] = np.where(df['MaxCorVal'] < 0, 'UNS', df['MaxColName'])
+
+#save csv file 
+df.to_csv('final_TNBC_subtyping_reassigned.csv')

@@ -16,8 +16,8 @@ df['MaxCorVal'] = df.max(axis=1)
 # make column which displays the TNBC subtype which has the highest correlation
 df['MaxColName'] = df.idxmax(axis=1)
 
-# make column for final subtype assignment, which reassigns any subtype designation to UNS if the maximal correlation is negative
-df['final_subtype'] = np.where(df['MaxCorVal'] < 0, 'UNS', df['MaxColName'])
+# make column for final subtype assignment, which reassigns any subtype designation to UNC if the maximal correlation is negative
+df['final_subtype'] = np.where(df['MaxCorVal'] < 0, 'UNC', df['MaxColName'])
 
 #save csv file 
 df.to_csv('final_TNBC_subtyping_reassigned.csv')
